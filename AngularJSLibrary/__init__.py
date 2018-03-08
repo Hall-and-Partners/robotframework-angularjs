@@ -106,15 +106,15 @@ class ngElementFinder(ElementFinder):
              parent)
         return elements
 
-    def _find_by_default(self, browser, criteria, tag, constraints):
+    def _find_by_default(self, criteria, tag, constraints, parent):
         if criteria.startswith('//'):
-            return self._s2l._element_finder._find_by_xpath(browser, criteria, tag, constraints)
+            return self._s2l._element_finder._find_by_xpath(criteria, tag, constraints, parent)
         elif criteria.startswith('{{'):
             criteria = stripcurly(criteria)
-            return self._find_by_binding(browser, criteria, tag, constraints)
-        return self._find_by_key_attrs(browser, criteria, tag, constraints)
+            return self._find_by_binding(criteria, tag, constraints, parent)
+        return super(ngElementFinder, self)._find_by_defaults(criteria, tag, constraints, parent)
 
-    def _find_by_binding(self, browser, criteria, tag, constraints):
+    def _find_by_binding(self, browser, criteria, tag, constraints, parent):
         return browser.execute_script("""
             var binding = '%s';
             var bindings = document.getElementsByClassName('ng-binding');
@@ -174,7 +174,7 @@ class AngularJSLibrary:
             self.root_selector = '[ng-app]'
         else:
             self.root_selector = root_selector
-            
+
         # Override default locators to include binding {{ }}
         self._s2l._element_finder = ngElementFinder(self.root_selector, ignore_implicit_angular_wait)
 
