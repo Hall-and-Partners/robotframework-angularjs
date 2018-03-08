@@ -4,6 +4,7 @@ from robot.utils import timestr_to_secs
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 from SeleniumLibrary.locators import ElementFinder
+from SeleniumLibrary.utils import escape_xpath_value
 
 import time
 
