@@ -112,7 +112,22 @@ class ngElementFinder(ElementFinder):
         elif criteria.startswith('{{'):
             criteria = stripcurly(criteria)
             return self._find_by_binding(criteria, tag, constraints, parent)
-        return self._s2l._find_by_defaults(criteria, tag, constraints, parent)
+        if tag in self._key_attrs:
+            key_attrs = self._key_attrs[tag]
+        else:
+            key_attrs = self._key_attrs[None]
+        xpath_criteria = escape_xpath_value(criteria)
+        xpath_tag = tag if tag is not None else '*'
+        xpath_constraints = self._get_xpath_constraints(constraints)
+        xpath_searchers = ["%s=%s" % (attr, xpath_criteria) for attr in key_attrs]
+        xpath_searchers.extend(self._get_attrs_with_url(key_attrs, criteria))
+        xpath = "//%s[%s%s(%s)]" % (
+            xpath_tag,
+            ' and '.join(xpath_constraints),
+            ' and ' if xpath_constraints else '',
+            ' or '.join(xpath_searchers)
+        )
+        return self._normalize(parent.find_elements_by_xpath(xpath))
 
     def _find_by_binding(self, browser, criteria, tag, constraints, parent):
         return browser.execute_script("""
