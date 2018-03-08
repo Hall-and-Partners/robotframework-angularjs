@@ -112,7 +112,7 @@ class ngElementFinder(ElementFinder):
         elif criteria.startswith('{{'):
             criteria = stripcurly(criteria)
             return self._find_by_binding(criteria, tag, constraints, parent)
-        return super(ngElementFinder, self)._find_by_defaults(criteria, tag, constraints, parent)
+        return self._s2l._find_by_defaults(criteria, tag, constraints, parent)
 
     def _find_by_binding(self, browser, criteria, tag, constraints, parent):
         return browser.execute_script("""
