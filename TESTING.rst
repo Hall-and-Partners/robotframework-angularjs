@@ -6,7 +6,7 @@ These are instructions for pulling in all the parts and testing the AngularJS Li
 Setup Environment
 -----------------
 
-We will have both a base set of pythons packages as well as the source for the AngularJSLibrary and the Selenium2Library all of which will will want to keep isolated from your system python and its packages. As such we will use Python's virtual environment. Let's start by creating a a root folder for testing.
+We will have both a base set of pythons packages as well as the source for the AngularJSLibrary and the SeleniumLibrary all of which will will want to keep isolated from your system python and its packages. As such we will use Python's virtual environment. Let's start by creating a a root folder for testing.
 
 .. code::  bash
 
@@ -22,9 +22,9 @@ Within this root folder we will create the virtualenv and clone source repositor
 	   pip install decorator docutils robotframework selenium
 	   
 	   git clone git@github.com:Selenium2Library/robotframework-angularjs.git rf-ng
-	   git clone git@github.com:robotframework/Selenium2Library.git rf-s2l
+	   git clone git@github.com:robotframework/SeleniumLibrary.git rf-s2l
 	   
-We will also clone the protractor repository. From Protractor we will use their test site, testapp, but not their test server. For the test server we will use the Selenium2Library test server with some modifications.
+We will also clone the protractor repository. From Protractor we will use their test site, testapp, but not their test server. For the test server we will use the SeleniumLibrary test server with some modifications.
 
 .. code::  bash
 
@@ -38,7 +38,7 @@ I modified the async testapp page so that the implicit wait for angular function
     cp rf-ng/AngularJSLibrary/async.html rf-s2l/test/resources/testapp/ng1/async/.
     cp rf-ng/AngularJSLibrary/async.js rf-s2l/test/resources/testapp/ng1/async/.
 
-Modifying the test server of Selenium2Library, rf-s2l\\test\\resources\\testserver\\testserver.py, add the following method, do_GET, to the StoppableHttpRequestHandler class.
+Modifying the test server of SeleniumLibrary, rf-s2l\\test\\resources\\testserver\\testserver.py, add the following method, do_GET, to the StoppableHttpRequestHandler class.
 
 .. code:: python
 
@@ -80,7 +80,7 @@ Don't forget with the added sleep statements you need to include the time packag
 
 otherwise several tests will fail.
 
-Finally, let's move the test files over to the Selenium2Library test directory. Although this may not be necessary I do it to keep all the test files together. Ultimately I would like to see the Selenium2Library test directory moved into the src directory so the tests get distributed and then allow the test scripts for AngularJSLibrary be abe to be run from its own test directory. But for now we will combine them.
+Finally, let's move the test files over to the SeleniumLibrary test directory. Although this may not be necessary I do it to keep all the test files together. Ultimately I would like to see the Selenium2Library test directory moved into the src directory so the tests get distributed and then allow the test scripts for AngularJSLibrary be abe to be run from its own test directory. But for now we will combine them.
 
 .. code:: bash
 
@@ -93,7 +93,7 @@ Directory Structure
 So taking a step back and looking at the whole structure we should see the following directories
 
 rf-s2l/
-    The source code for Robot Framework Selenium2Library.
+    The source code for Robot Framework SeleniumLibrary.
     
 rf-ng/
     The source code for Robot Framework AngularJSLibrary.
@@ -169,7 +169,7 @@ In another terminal we will run the test scripts
 
     python test/run_tests.py python FF --suite acceptance.keywords.angular_wait --pythonpath ../rf-ng
 
-Note there is currently an issue with the Selenium2Library test runner script where if you specify a specific suite the output log and report files will not be created automatically. To get those files you can type
+Note there is currently an issue with the SeleniumLibrary test runner script where if you specify a specific suite the output log and report files will not be created automatically. To get those files you can type
 
 .. code:: bash
 
@@ -320,7 +320,7 @@ Implicit Wait for Angular
 -------------------------
 As advertised on Protractor's homepage, Protractor "can automatically execute the next step in your test the moment the webpage finishes pending tasks, so you don’t have to worry about waiting for your test and webpage to sync." This implicit wait for angular functionality is implemented at couple points. First, as found in the ElementArrayFinder, "the first time [Protractor is] looking for an element". Second, as noted in protractor/lib/plugins.ts, "[b]etween every webdriver action, Protractor calls browser.waitForAngular() to make sure that Angular has no outstanding $http or $timeout calls."  So whenever Protractor looks for an element [2]_ or whenever it makes a Selenium WebDriverJS library call it waits for angular thus fufilling the claim that you no longer need explicit waits. For the AngularJSLibrary then we will also want to wait when looking for an element or when calling a selenium method.
 
-Interestingly enough, for the Selenium2Library when one makes a selenium call one is also looking for an element. This leads to a really slick (IMHO) solution for the Angular2Library. `Here it is<https://github.com/Selenium2Library/robotframework-angularjs/blob/master/AngularJSLibrary/__init__.py#L69>`_...
+Interestingly enough, for the SeleniumLibrary when one makes a selenium call one is also looking for an element. This leads to a really slick (IMHO) solution for the Angular2Library. `Here it is<https://github.com/Selenium2Library/robotframework-angularjs/blob/master/AngularJSLibrary/__init__.py#L69>`_...
 
 .. code ::  python
 
@@ -342,11 +342,11 @@ Interestingly enough, for the Selenium2Library when one makes a selenium call on
             strategy = ElementFinder.find(self, browser, locator, tag=None)
             return strategy
 
-Essentially we override the find method of Selenium2Library. So whenever you pass a locator to one of the Selenium2Library keywords you are calling, implicitly, wait for angular. One can see this in the Robot Framework log file when you have set loglevel to ``DEBUG``. Here is the log file output when we click an element
+Essentially we override the find method of SeleniumLibrary. So whenever you pass a locator to one of the Selenium2Library keywords you are calling, implicitly, wait for angular. One can see this in the Robot Framework log file when you have set loglevel to ``DEBUG``. Here is the log file output when we click an element
 
 .. code ::
 
-    KEYWORD Selenium2Library . Click Element model=show
+    KEYWORD SeleniumLibrary . Click Element model=show
     Documentation: 	
     
     Click element identified by `locator`.
@@ -363,7 +363,7 @@ The first POST is an execute javascript call where the javascript function is th
 
 .. code ::
 
-    KEYWORD Selenium2Library . Click Button css=[ng-click="slowAngularTimeoutHideButton()"]
+    KEYWORD SeleniumLibrary . Click Button css=[ng-click="slowAngularTimeoutHideButton()"]
     Documentation: 	
     
     Clicks a button identified by `locator`.

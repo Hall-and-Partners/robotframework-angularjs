@@ -1,6 +1,6 @@
 AngularJSLibrary - robotframework-angularjs
 ===========================================
-An AngularJS extension to Robotframework's Selenium2Library
+An AngularJS extension to Robotframework's SeleniumLibrary
 
 What is included
 ----------------
@@ -25,12 +25,12 @@ Alternatively, to install from source:
 
 Keyword Usage
 -------------
-In order to use the keywords you have to include AngularJSLibrary in the settings section of your test. Note will will need to include the Selenium2Library **before** you import the AngularJSLibrary.
+In order to use the keywords you have to include AngularJSLibrary in the settings section of your test. Note will will need to include the SeleniumLibrary **before** you import the AngularJSLibrary.
 
 .. code::  robotframework
 
     *** Settings ***
-    Library         Selenium2Library
+    Library         SeleniumLibrary
     Library         AngularJSLibrary
     ...
     
@@ -84,7 +84,7 @@ Finally there is the strategy of find by repeat. This takes the general form of 
 
 Getting Help
 ------------
-If you need help with AngularJSLibrary, Selenium2Library, or Robot Framework usage, please post to the `user group for Robot Framework <https://groups.google.com/forum/#!forum/robotframework-users>`_.
+If you need help with AngularJSLibrary, SeleniumLibrary, or Robot Framework usage, please post to the `user group for Robot Framework <https://groups.google.com/forum/#!forum/robotframework-users>`_.
 
 Testing
 -------
@@ -93,6 +93,6 @@ For information on how we test the AngularJSLibrary see the `Testing.rst`_ file.
 References
 ----------
 
-`Selenium2Library <https://github.com/robotframework/Selenium2Library>`_: Web testing library for Robot Framework
+`SeleniumLibrary <https://github.com/robotframework/SeleniumLibrary>`_: Web testing library for Robot Framework
 
 `Protractor <http://www.protractortest.org>`_: E2E test framework for Angular apps

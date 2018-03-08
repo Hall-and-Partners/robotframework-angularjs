@@ -1,4 +1,4 @@
-"""An AngularJS extension to Robotframework's Selenium2Library
+"""An AngularJS extension to Robotframework's SeleniumLibrary
 
 See:
 http://robotframework.org/
@@ -18,7 +18,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 setup(
     name='robotframework-angularjs',
     version='0.0.7dev1',
-    description="""An AngularJS extension to Robotframework's Selenium2Library""",
+    description="""An AngularJS extension to Robotframework's SeleniumLibrary""",
     long_description=long_description,
     url='https://github.com/Selenium2Library/robotframework-angularjs',
     author='Zephraph, Ed Manlove',
@@ -34,5 +34,5 @@ setup(
     ],
     keywords='robotframework testing testautomation angular selenium webdriver',
     packages=find_packages(exclude=['docs']),
-    install_requires=['robotframework', 'robotframework-selenium2library'],
+    install_requires=['robotframework', 'robotframework-seleniumlibrary'],
 )
