@@ -91,7 +91,6 @@ class ngElementFinder(ElementFinder):
         self.root_selector = root_selector
         self.ignore_implicit_angular_wait = ignore_implicit_angular_wait
 
-    #def find(self, browser, locator, tag=None):
     def find(self, locator, tag=None, first_only=True, required=True,
              parent=None):
         timeout = self._s2l.get_selenium_timeout()
